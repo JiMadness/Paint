@@ -3,22 +3,27 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import main.Main;
-import java.awt.MouseInfo;
+import model.*;
+
 
 public class Sketch {
     private static Sketch instance;
-    private GraphicsContext graphicsContext;
-    private double startPointx;
-    private double startPointy;
-    private double endPointx;
-    private double endPointy;
+    public enum ShapeType{LINE,CIRCLE,TRIANGLE,RECTANGLE};
+    private Color fillColor=Color.BLACK;
+    private Color strokeColor=Color.BLACK;
+    private double startx,starty,endx,endy;
+    private ShapeType shapeType=ShapeType.LINE;
     @FXML
-    private Canvas canvas;
+    private StackPane canvas;
+    @FXML
+    private Canvas baseCanvas;
     public static Sketch getInstance() {
         return instance;
     }
+
     public static void setInstance(Sketch instance) {
         Sketch.instance = instance;
     }
@@ -26,30 +31,31 @@ public class Sketch {
     @FXML
     private void initialize(){
         setInstance(this);
-        setGraphicsContext(canvas.getGraphicsContext2D());
-        graphicsContext.setFill(Color.WHITE);
+
         Main.getInstance().getRoot().setCenter(canvas);
-        graphicsContext.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    }
-    @FXML
-    private void dragged(){
-        System.out.println("Hi");
-        startPointx = MouseInfo.getPointerInfo().getLocation().getX();
-        startPointy = MouseInfo.getPointerInfo().getLocation().getY();
-    }
-    @FXML
-    private void exited(){
-        System.out.println("Bye");
-        endPointx = MouseInfo.getPointerInfo().getLocation().getX();
-        endPointy = MouseInfo.getPointerInfo().getLocation().getY();
-        graphicsContext.strokeLine(startPointx+180,startPointy+60,endPointx-180,endPointy-60);
-    }
 
-    public GraphicsContext getGraphicsContext() {
-        return graphicsContext;
-    }
+        GraphicsContext gc= baseCanvas.getGraphicsContext2D();
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, baseCanvas.getWidth(), baseCanvas.getHeight());
 
-    public void setGraphicsContext(GraphicsContext graphicsContext) {
-        this.graphicsContext = graphicsContext;
+        canvas.setOnMousePressed(e -> {
+            startx = e.getX();
+            starty = e.getY();
+        });
+        canvas.setOnMouseReleased(e->{
+            endx=e.getX();
+            endy=e.getY();
+            switch (shapeType){
+                case LINE:
+                    new Line(new double[]{startx,starty},new double[]{endx,endy},strokeColor).draw();
+                    break;
+            }
+        });
+    }
+    public StackPane getCanvas(){
+        return canvas;
+    }
+    public void setShapeType(ShapeType shapeType){
+        this.shapeType=shapeType;
     }
 }

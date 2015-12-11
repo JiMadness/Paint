@@ -50,14 +50,18 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" text="Rectangle" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" text="Triangle" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" text="Circle" GridPane.rowIndex="3" />
-                  <Button mnemonicParsing="false" text="Color Select" />
-                  <Button mnemonicParsing="false" text="Undo" GridPane.rowIndex="4" />
-                  <Button mnemonicParsing="false" text="Redo" GridPane.rowIndex="5" />
+                  <Button fx:id="rectangle" mnemonicParsing="false" text="Rectangle" GridPane.rowIndex="1" />
+                  <Button fx:id="triangle" mnemonicParsing="false" text="Triangle" GridPane.rowIndex="2" />
+                  <Button fx:id="circle" mnemonicParsing="false" text="Circle" GridPane.rowIndex="3" />
+                  <Button fx:id="colorSelect" mnemonicParsing="false" text="Color Select" />
+                  <Button fx:id="undo" mnemonicParsing="false" text="Undo" GridPane.rowIndex="7" />
+                  <Button fx:id="redo" mnemonicParsing="false" text="Redo" GridPane.rowIndex="8" />
+                  <Button fx:id="move" mnemonicParsing="false" text="Move" GridPane.rowIndex="5" />
+                  <Button fx:id="resize" mnemonicParsing="false" text="Resize" GridPane.rowIndex="6" />
+                  <Button fx:id="line" mnemonicParsing="false" text="Line" GridPane.rowIndex="4" />
                </children>
             </GridPane>
          </children>
