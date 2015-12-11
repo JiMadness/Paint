@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.canvas.*?>
+
+<Canvas fx:id="canvas" height="540.0" onDragDetected="#dragged" onMouseReleased="#exited" width="620.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Sketch">
+   <cursor>
+      <Cursor fx:constant="CROSSHAIR" />
+   </cursor>
+</Canvas>
