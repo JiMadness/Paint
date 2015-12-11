@@ -11,6 +11,23 @@ import model.*;
 
 public class Sketch {
     private static Sketch instance;
+
+    public Color getFillColor() {
+        return fillColor;
+    }
+
+    public void setFillColor(Color fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    public Color getStrokeColor() {
+        return strokeColor;
+    }
+
+    public void setStrokeColor(Color strokeColor) {
+        this.strokeColor = strokeColor;
+    }
+
     public enum ShapeType{LINE,CIRCLE,TRIANGLE,RECTANGLE};
     private Color fillColor=Color.BLACK;
     private Color strokeColor=Color.BLACK;
@@ -47,7 +64,7 @@ public class Sketch {
             endy=e.getY();
             switch (shapeType){
                 case LINE:
-                    new Line(new double[]{startx,starty},new double[]{endx,endy},strokeColor).draw();
+                    new Line(new double[]{startx,starty},new double[]{endx,endy}, getStrokeColor()).draw();
                     break;
             }
         });

@@ -1,14 +1,21 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ColorPicker;
 
 import static controller.Sketch.ShapeType;
 
 public class Frame {
     private static Frame instance;
     @FXML
+    private ColorPicker strokeColor;
+    @FXML
+    private ColorPicker fillColor;
+    @FXML
     private void initialize(){
         instance = this;
+        strokeColor.valueProperty().addListener(l->Sketch.getInstance().setStrokeColor(strokeColor.getValue()));
+        fillColor.valueProperty().addListener(l->Sketch.getInstance().setFillColor(fillColor.getValue()));
     }
     @FXML
     private void colorSelectPressed(){
