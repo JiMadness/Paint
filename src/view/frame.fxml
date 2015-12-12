@@ -44,6 +44,7 @@
               <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -54,16 +55,17 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="rectangle" mnemonicParsing="false" text="Rectangle" GridPane.rowIndex="2" />
-                  <Button fx:id="triangle" mnemonicParsing="false" text="Triangle" GridPane.rowIndex="3" />
-                  <Button fx:id="circle" mnemonicParsing="false" text="Circle" GridPane.rowIndex="4" />
-                  <Button fx:id="undo" mnemonicParsing="false" text="Undo" GridPane.rowIndex="8" />
-                  <Button fx:id="redo" mnemonicParsing="false" text="Redo" GridPane.rowIndex="9" />
-                  <Button fx:id="move" mnemonicParsing="false" text="Move" GridPane.rowIndex="6" />
-                  <Button fx:id="resize" mnemonicParsing="false" text="Resize" GridPane.rowIndex="7" />
-                  <Button fx:id="line" mnemonicParsing="false" text="Line" GridPane.rowIndex="5" />
+                  <Button fx:id="rectangle" mnemonicParsing="false" onAction="#rectanglePressed" text="Rectangle" GridPane.rowIndex="3" />
+                  <Button fx:id="triangle" mnemonicParsing="false" onAction="#trianglePressed" text="Triangle" GridPane.rowIndex="4" />
+                  <Button fx:id="circle" mnemonicParsing="false" onAction="#circlePressed" text="Circle" GridPane.rowIndex="5" />
+                  <Button fx:id="undo" mnemonicParsing="false" onAction="#undoPressed" text="Undo" GridPane.rowIndex="9" />
+                  <Button fx:id="redo" mnemonicParsing="false" onAction="#redoPressed" text="Redo" GridPane.rowIndex="10" />
+                  <Button fx:id="move" mnemonicParsing="false" onAction="#movePressed" text="Move" GridPane.rowIndex="7" />
+                  <Button fx:id="resize" mnemonicParsing="false" onAction="#resizePressed" text="Resize" GridPane.rowIndex="8" />
+                  <Button fx:id="line" mnemonicParsing="false" onAction="#linePressed" text="Line" GridPane.rowIndex="6" />
                   <ColorPicker fx:id="strokeColor" editable="true" promptText="Stroke Color" style="-fx-background-color: #3d3d3d;" />
                   <ColorPicker fx:id="fillColor" editable="true" promptText="Fill Color" style="-fx-background-color: #3d3d3d;" GridPane.rowIndex="1" />
+                  <Spinner fx:id="lineWidth" editable="true" prefHeight="37.0" prefWidth="100.0" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>

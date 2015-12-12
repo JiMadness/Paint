@@ -8,9 +8,36 @@ import javafx.scene.paint.Color;
 import main.Main;
 import model.*;
 
-
 public class Sketch {
     private static Sketch instance;
+    public enum ShapeType{LINE,CIRCLE,TRIANGLE,RECTANGLE}
+    private Color fillColor=Color.BLACK;
+    private Color strokeColor=Color.BLACK;
+    private double startX;
+    private double startY;
+    private double endX;
+    private double endY;
+    private double lineWidth;
+    private ShapeType shapeType=ShapeType.LINE;
+    @FXML
+    private StackPane canvas;
+    @FXML
+    private Canvas baseCanvas;
+    public static Sketch getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(Sketch instance) {
+        Sketch.instance = instance;
+    }
+
+    public double getLineWidth() {
+        return lineWidth;
+    }
+
+    public void setLineWidth(double lineWidth) {
+        this.lineWidth = lineWidth;
+    }
 
     public Color getFillColor() {
         return fillColor;
@@ -28,23 +55,6 @@ public class Sketch {
         this.strokeColor = strokeColor;
     }
 
-    public enum ShapeType{LINE,CIRCLE,TRIANGLE,RECTANGLE};
-    private Color fillColor=Color.BLACK;
-    private Color strokeColor=Color.BLACK;
-    private double startx,starty,endx,endy;
-    private ShapeType shapeType=ShapeType.LINE;
-    @FXML
-    private StackPane canvas;
-    @FXML
-    private Canvas baseCanvas;
-    public static Sketch getInstance() {
-        return instance;
-    }
-
-    public static void setInstance(Sketch instance) {
-        Sketch.instance = instance;
-    }
-
     @FXML
     private void initialize(){
         setInstance(this);
@@ -56,15 +66,15 @@ public class Sketch {
         gc.fillRect(0, 0, baseCanvas.getWidth(), baseCanvas.getHeight());
 
         canvas.setOnMousePressed(e -> {
-            startx = e.getX();
-            starty = e.getY();
+            startX = e.getX();
+            startY = e.getY();
         });
         canvas.setOnMouseReleased(e->{
-            endx=e.getX();
-            endy=e.getY();
+            endX=e.getX();
+            endY=e.getY();
             switch (shapeType){
                 case LINE:
-                    new Line(new double[]{startx,starty},new double[]{endx,endy}, getStrokeColor()).draw();
+                    new Line(new double[]{startX,startY},new double[]{endX,endY}, getStrokeColor(),getLineWidth()).draw();
                     break;
             }
         });

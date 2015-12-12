@@ -10,7 +10,7 @@
    <children>
       <Canvas fx:id="baseCanvas" height="540.0" width="620.0">
          <cursor>
-            <Cursor fx:constant="DEFAULT" />
+            <Cursor fx:constant="CROSSHAIR" />
          </cursor>
       </Canvas>
    </children>

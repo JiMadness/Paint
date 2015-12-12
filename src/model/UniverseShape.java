@@ -1,5 +1,7 @@
 package model;
 
+import controller.Sketch;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
 
@@ -10,6 +12,7 @@ public class UniverseShape implements Shape{
     private double[] position = new double[2];
     private Color color;
     private Color fillColor;
+    private Canvas layer=new Canvas(620,540);
     Map<String,Double> properties = new HashMap<>();
 
     public void setPosition(double[] point) {
@@ -44,9 +47,13 @@ public class UniverseShape implements Shape{
         return fillColor;
     }
 
+    public Canvas getLayer(){
+        return layer;
+    }
+
     public void draw() {
     }
     public void remove(){
-
+        Sketch.getInstance().getCanvas().getChildren().remove(getLayer());
     }
 }
