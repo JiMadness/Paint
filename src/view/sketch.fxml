@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.layout.*?>
-<?import java.lang.*?>
-<?import javafx.scene.canvas.*?>
-
-<StackPane fx:id="canvas" style="-fx-background-color: #3d3d3d;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Sketch">
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.StackPane?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="canvas" style="-fx-background-color: #3d3d3d;"
+           xmlns="http://javafx.com/javafx/8.0.40" fx:controller="controller.Sketch">
    <children>
-      <Canvas fx:id="baseCanvas" height="540.0" width="620.0">
+      <Canvas fx:id="baseCanvas" height="629.0" width="1195.0">
          <cursor>
             <Cursor fx:constant="CROSSHAIR" />
          </cursor>

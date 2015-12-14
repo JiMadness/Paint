@@ -9,15 +9,29 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private Stage primaryStage;
     private static Main instance;
+    private Stage primaryStage;
     private BorderPane root;
     private Node canvas;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    public static Main getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(Main instance) {
+        Main.instance = instance;
+    }
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         setInstance(this);
         this.setPrimaryStage(primaryStage);
         initViews();
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
@@ -26,19 +40,6 @@ public class Main extends Application {
         getPrimaryStage().setTitle("Paint");
         getPrimaryStage().setScene(new Scene(getRoot(), 800, 600));
         setCanvas(FXMLLoader.load(getClass().getResource("../view/sketch.fxml")));
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-
-    public static Main getInstance() {
-        return instance;
-    }
-
-    public static void setInstance(Main instance) {
-        Main.instance = instance;
     }
 
     public Stage getPrimaryStage() {
