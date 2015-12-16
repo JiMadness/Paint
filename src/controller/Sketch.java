@@ -85,8 +85,8 @@ public class Sketch {
 
     @FXML
     private void initialize(){
-        double[] XPoints = new double[4];
-        double[] YPoints = new double[4];
+        double[] XPoints = new double[3];
+        double[] YPoints = new double[3];
 
         setInstance(this);
 
@@ -117,7 +117,7 @@ public class Sketch {
             }
             startX = e.getX();
             startY = e.getY();
-            SmallRectangle.create(e.getX(), e.getY());
+            SmallRectangles.create(e.getX(), e.getY());
             if (shapeType == ShapeType.TRIANGLE) {
                 XPoints[pointsIterator] = e.getX();
                 YPoints[pointsIterator] = e.getY();
@@ -142,26 +142,26 @@ public class Sketch {
             endY=e.getY();
             switch (shapeType){
                 case LINE:
-                    SmallRectangle.remove();
+                    SmallRectangles.remove();
                     new Line(new double[]{startX, startY}, new double[]{endX, endY}, getStrokeColor(), getLineWidth() == 0 ? 1 : getLineWidth()).draw();
                     break;
                 case CIRCLE:
-                    SmallRectangle.remove();
+                    SmallRectangles.remove();
                     new Circle(new double[]{startX, startY}, new double[]{endX, endY}, getStrokeColor(), getFillColor(), getLineWidth() == 0 ? 1 : getLineWidth()).draw();
                     break;
                 case ELLIPSE:
-                    SmallRectangle.remove();
+                    SmallRectangles.remove();
                     new Ellipse(new double[]{startX, startY}, new double[]{endX, endY}, getStrokeColor(), getFillColor(), getLineWidth() == 0 ? 1 : getLineWidth()).draw();
                     break;
                 case TRIANGLE:
                     if (pointsIterator == 3) {
-                        SmallRectangle.remove();
+                        SmallRectangles.remove();
                         new Triangle(XPoints, YPoints, getStrokeColor(), getFillColor(), getLineWidth()).draw();
                         pointsIterator = 0;
                     }
                     break;
                 case RECTANGLE:
-                    SmallRectangle.remove();
+                    SmallRectangles.remove();
                     new Rectangle(new double[]{startX, startY}, new double[]{endX, endY}, getStrokeColor(), getFillColor(), getLineWidth() == 0 ? 1 : getLineWidth()).draw();
                     break;
             }
@@ -187,7 +187,7 @@ public class Sketch {
     public enum ShapeType {LINE, CIRCLE, TRIANGLE, RECTANGLE, ELLIPSE}
 }
 
-class SmallRectangle {
+class SmallRectangles {
     private static ArrayList<Canvas> smallRectangles = new ArrayList<>();
 
     public static void create(double x, double y) {

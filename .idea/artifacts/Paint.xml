@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="Paint">
+    <output-path>$PROJECT_DIR$/out/artifacts/Paint</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="alias" value="" />
+        <option name="appClass" value="main.Main" />
+        <option name="description" value="Simple MS-Paint like JavaFX Application." />
+        <option name="enabledSigning" value="true" />
+        <option name="htmlParamFile" value="" />
+        <option name="keystore" value="" />
+        <option name="paramFile" value="" />
+        <option name="title" value="Paint" />
+        <option name="vendor" value="M. Gamal" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="Paint.jar">
+        <element id="module-output" name="Paint" />
+      </element>
+    </root>
+  </artifact>
+</component>

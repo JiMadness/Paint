@@ -6,6 +6,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.Shape;
+
+import java.util.Stack;
 
 public class Main extends Application {
 
@@ -13,7 +16,7 @@ public class Main extends Application {
     private Stage primaryStage;
     private BorderPane root;
     private Node canvas;
-
+    private Stack<Shape> shapes = new Stack<>();
     public static void main(String[] args) {
         launch(args);
     }
@@ -48,6 +51,10 @@ public class Main extends Application {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public Stack<Shape> getShapes() {
+        return shapes;
     }
 
     public BorderPane getRoot() {

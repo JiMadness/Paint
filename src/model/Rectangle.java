@@ -7,6 +7,7 @@ public class Rectangle extends UniverseShape {
     private double[] endPoint;
 
     public Rectangle(double[] startPoint, double[] endPoint, Color strokeColor, Color fillColor, double strokeWidth) {
+        super();
         this.setPosition(startPoint);
         this.endPoint = endPoint;
         this.setColor(strokeColor);
@@ -19,6 +20,7 @@ public class Rectangle extends UniverseShape {
         this.getProperties().put("stroke-width", strokeWidth);
         this.getProperties().put("stroke-color", getColor());
         this.getProperties().put("fill-color", getFillColor());
+        this.getProperties().put("type", Sketch.ShapeType.RECTANGLE);
     }
 
     private void fixDimensions() {

@@ -8,6 +8,7 @@ public class Line extends UniverseShape{
     private double[] endPoint = new double[2];
 
     public Line(double[] startPoint, double[] endPoint, Color color, double strokeWidth) {
+        super();
         this.setPosition(startPoint);
         this.endPoint = endPoint;
         this.setStrokeWidth(strokeWidth);
@@ -19,6 +20,7 @@ public class Line extends UniverseShape{
         this.getProperties().put("ending-y", endPoint[1]);
         this.getProperties().put("stroke-width", strokeWidth);
         this.getProperties().put("stroke-color", getColor());
+        this.getProperties().put("type", Sketch.ShapeType.LINE);
     }
     @Override
     public void draw(){

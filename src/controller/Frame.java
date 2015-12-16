@@ -1,9 +1,11 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import main.DataDealer;
+import main.Main;
+import model.Shape;
 
 import java.util.Stack;
 
@@ -29,7 +31,7 @@ public class Frame {
     private Button line;
     @FXML
     private Label coordinates;
-    private Stack<Node> undone = new Stack<>();
+    private Stack<Shape> undone = new Stack<>();
 
     public static Frame getInstance() {
         return instance;
@@ -123,18 +125,33 @@ public class Frame {
 
     @FXML
     private void undoPressed() {
-        if (Sketch.getInstance().getCanvas().getChildren().size() != 1) {
-            undone.push(Sketch.getInstance().getCanvas().getChildren().get(Sketch.getInstance().getCanvas().getChildren().size() - 1));
-            Sketch.getInstance().getCanvas().getChildren().remove(Sketch.getInstance().getCanvas().getChildren().size() - 1);
+        if (!Main.getInstance().getShapes().isEmpty()) {
+            undone.push(Main.getInstance().getShapes().pop());
+            undone.peek().remove();
         }
     }
 
     @FXML
     private void redoPressed(){
-        if (!undone.isEmpty())
-            Sketch.getInstance().getCanvas().getChildren().add(undone.pop());
+        if (!undone.isEmpty()) {
+            Main.getInstance().getShapes().push(undone.pop());
+            Main.getInstance().getShapes().peek().draw();
+        }
     }
 
+    @FXML
+    private void newPressed() {
+    }
+
+    @FXML
+    private void openPressed() {
+        DataDealer.load();
+    }
+
+    @FXML
+    private void savePressed() {
+        DataDealer.save();
+    }
     public Label getCoordinates() {
         return coordinates;
     }

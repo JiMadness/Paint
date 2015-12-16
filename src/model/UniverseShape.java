@@ -3,6 +3,7 @@ package model;
 import controller.Sketch;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
+import main.Main;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,9 @@ public class UniverseShape implements Shape{
     private double strokeWidth;
     private Canvas layer = new Canvas(Sketch.getInstance().getMainWidth(), Sketch.getInstance().getMainHeight());
 
+    public UniverseShape() {
+        Main.getInstance().getShapes().push(this);
+    }
     public double[] getPosition() {
         return position;
     }
@@ -51,10 +55,16 @@ public class UniverseShape implements Shape{
         return layer;
     }
 
+    public void setLayer(Canvas layer) {
+        this.layer = layer;
+    }
+
     public void draw() {
     }
+
     public void remove(){
         Sketch.getInstance().getCanvas().getChildren().remove(getLayer());
+        setLayer(new Canvas(Sketch.getInstance().getMainWidth(), Sketch.getInstance().getMainHeight()));
     }
 
     public double getStrokeWidth() {

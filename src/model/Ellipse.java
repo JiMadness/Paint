@@ -7,6 +7,7 @@ public class Ellipse extends UniverseShape {
     private double[] endPoint;
 
     public Ellipse(double[] startPoint, double[] endPoint, Color strokeColor, Color fillColor, double strokeWidth) {
+        super();
         this.setPosition(startPoint);
         this.setEndPoint(endPoint);
         this.setColor(strokeColor);
@@ -19,6 +20,10 @@ public class Ellipse extends UniverseShape {
         this.getProperties().put("stroke-width", strokeWidth);
         this.getProperties().put("stroke-color", getColor());
         this.getProperties().put("fill-color", getFillColor());
+        if (Circle.class.isInstance(this)) {
+            this.getProperties().put("type", Sketch.ShapeType.CIRCLE);
+        } else
+            this.getProperties().put("type", Sketch.ShapeType.ELLIPSE);
     }
 
     protected void fixDimensions() {
