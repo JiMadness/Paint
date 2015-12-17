@@ -1,18 +1,27 @@
 package model;
 
+import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
 import java.util.Map;
 
 public interface Shape {
-    void setPosition(double[] point);
     double[] getPosition();
-    void setProperties(Map<String,Double> properties);
+
+    void setPosition(double[] point);
+
     Map getProperties();
-    void setColor(Color color);
+
     Color getColor();
-    void setFillColor(Color color);
+
+    void setColor(Color color);
+
+    Canvas getLayer();
+
     Color getFillColor();
+
+    void setFillColor(Color color);
+
     void draw();
     void remove();
 }

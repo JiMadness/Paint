@@ -7,6 +7,8 @@ import main.DataDealer;
 import main.Main;
 import model.Shape;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Stack;
 
 import static controller.Sketch.ShapeType;
@@ -31,6 +33,13 @@ public class Frame {
     private Button line;
     @FXML
     private Label coordinates;
+    @FXML
+    private Button delete;
+    @FXML
+    private Button move;
+    @FXML
+    private Button resize;
+
     private Stack<Shape> undone = new Stack<>();
 
     public static Frame getInstance() {
@@ -38,7 +47,7 @@ public class Frame {
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         instance = this;
         rectangle.setDisable(false);
         triangle.setDisable(false);
@@ -53,7 +62,7 @@ public class Frame {
     }
 
     @FXML
-    private void rectanglePressed(){
+    private void rectanglePressed() {
         rectangle.setDisable(true);
         triangle.setDisable(false);
         ellipse.setDisable(false);
@@ -63,7 +72,7 @@ public class Frame {
     }
 
     @FXML
-    private void trianglePressed(){
+    private void trianglePressed() {
         rectangle.setDisable(false);
         triangle.setDisable(true);
         circle.setDisable(false);
@@ -73,7 +82,7 @@ public class Frame {
     }
 
     @FXML
-    private void circlePressed(){
+    private void circlePressed() {
         rectangle.setDisable(false);
         triangle.setDisable(false);
         circle.setDisable(true);
@@ -83,7 +92,7 @@ public class Frame {
     }
 
     @FXML
-    private void linePressed(){
+    private void linePressed() {
         rectangle.setDisable(false);
         triangle.setDisable(false);
         circle.setDisable(false);
@@ -104,13 +113,19 @@ public class Frame {
 
     @FXML
     private void movePressed() {
+        move.setDisable(true);
+        resize.setDisable(false);
+        delete.setDisable(false);
         Sketch.getInstance().setMoveFlag(true);
         Sketch.getInstance().setResizeFlag(false);
         Sketch.getInstance().setDeleteFlag(false);
     }
 
     @FXML
-    private void resizePressed(){
+    private void resizePressed() {
+        resize.setDisable(true);
+        move.setDisable(false);
+        delete.setDisable(false);
         Sketch.getInstance().setMoveFlag(false);
         Sketch.getInstance().setResizeFlag(true);
         Sketch.getInstance().setDeleteFlag(false);
@@ -118,13 +133,17 @@ public class Frame {
 
     @FXML
     private void deletePressed() {
+        move.setDisable(false);
+        resize.setDisable(false);
+        delete.setDisable(true);
         Sketch.getInstance().setMoveFlag(false);
         Sketch.getInstance().setResizeFlag(false);
         Sketch.getInstance().setDeleteFlag(true);
+
     }
 
     @FXML
-    private void undoPressed() {
+    public void undoPressed() {
         if (!Main.getInstance().getShapes().isEmpty()) {
             undone.push(Main.getInstance().getShapes().pop());
             undone.peek().remove();
@@ -132,7 +151,7 @@ public class Frame {
     }
 
     @FXML
-    private void redoPressed(){
+    private void redoPressed() {
         if (!undone.isEmpty()) {
             Main.getInstance().getShapes().push(undone.pop());
             Main.getInstance().getShapes().peek().draw();
@@ -141,18 +160,66 @@ public class Frame {
 
     @FXML
     private void newPressed() {
+        if (Main.getInstance().getRoot().getCenter().equals(Sketch.getInstance().getCanvas())) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("New File");
+            alert.setHeaderText("New File");
+            alert.setContentText("Are you sure that you want to exit this file, and create a new file?\nUnsaved changes will be lost.");
+
+            Optional<ButtonType> res = alert.showAndWait();
+            if (res.get() != ButtonType.OK)
+                return;
+        }
+        TextInputDialog dialog = new TextInputDialog("1195x629");
+        dialog.setTitle("Select width and height");
+        dialog.setHeaderText("Canvas Width-Height");
+        dialog.setContentText("Width x Height:");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(w -> {
+            String[] dims = w.split("x");
+            try {
+                Sketch.getInstance().setMainWidth(Double.valueOf(dims[0]));
+                Sketch.getInstance().setMainHeight(Double.valueOf(dims[1]));
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, "Error reading dimensions.\nPlease use the correct format.").show();
+                return;
+            }
+            Main.getInstance().getShapes().forEach(model.Shape::remove);
+            Main.getInstance().getShapes().clear();
+            Main.getInstance().getPrimaryStage().setTitle("Paint - Untitled");
+
+            Main.getInstance().getRoot().setCenter(Sketch.getInstance().getCanvas());
+        });
     }
 
     @FXML
     private void openPressed() {
         DataDealer.load();
+
+        if (Objects.equals(Main.getInstance().getPrimaryStage().getTitle(), "Paint"))
+            Main.getInstance().getPrimaryStage().setTitle("Paint - Untitled");
+        if (!Main.getInstance().getRoot().getCenter().equals(Sketch.getInstance().getCanvas()))
+            Main.getInstance().getRoot().setCenter(Sketch.getInstance().getCanvas());
     }
 
     @FXML
     private void savePressed() {
         DataDealer.save();
     }
+
     public Label getCoordinates() {
         return coordinates;
+    }
+
+    public Button getDelete() {
+        return delete;
+    }
+
+    public Button getMove() {
+        return move;
+    }
+
+    public Button getResize() {
+        return resize;
     }
 }

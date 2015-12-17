@@ -9,6 +9,7 @@
         <option name="enabledSigning" value="true" />
         <option name="htmlParamFile" value="" />
         <option name="keystore" value="" />
+        <option name="nativeBundle" value="all" />
         <option name="paramFile" value="" />
         <option name="title" value="Paint" />
         <option name="vendor" value="M. Gamal" />
@@ -17,6 +18,9 @@
     <root id="root">
       <element id="archive" name="Paint.jar">
         <element id="module-output" name="Paint" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+        </element>
       </element>
     </root>
   </artifact>

@@ -3,12 +3,14 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import main.Main;
 import model.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Sketch {
     private static Sketch instance;
@@ -25,6 +27,8 @@ public class Sketch {
     private double endY;
     private double lineWidth;
     private byte pointsIterator = 0;
+    private Shape tempShape;
+    private double[] oldPoints = {-1, -1};
     private ShapeType shapeType=ShapeType.LINE;
     @FXML
     private StackPane canvas;
@@ -69,6 +73,12 @@ public class Sketch {
 
     public void setMainWidth(double mainWidth) {
         this.mainWidth = mainWidth;
+        canvas.setMaxWidth(mainWidth);
+        GraphicsContext gc = baseCanvas.getGraphicsContext2D();
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, baseCanvas.getWidth(), baseCanvas.getHeight());
+        setFillColor(Color.WHITE);
+        baseCanvas.setWidth(mainWidth);
     }
 
     public double getMainHeight() {
@@ -77,6 +87,12 @@ public class Sketch {
 
     public void setMainHeight(double mainHeight) {
         this.mainHeight = mainHeight;
+        canvas.setMaxHeight(mainHeight);
+        GraphicsContext gc = baseCanvas.getGraphicsContext2D();
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, baseCanvas.getWidth(), baseCanvas.getHeight());
+        setFillColor(Color.WHITE);
+        baseCanvas.setHeight(mainHeight);
     }
 
     public void setDeleteFlag(boolean deleteFlag) {
@@ -87,32 +103,30 @@ public class Sketch {
     private void initialize(){
         double[] XPoints = new double[3];
         double[] YPoints = new double[3];
-
         setInstance(this);
 
-        Main.getInstance().getRoot().setCenter(canvas);
+        setMainWidth(mainWidth);
+        setMainHeight(mainHeight);
 
-        canvas.setMaxWidth(mainWidth);
-        canvas.setMaxHeight(mainHeight);
-        baseCanvas.setWidth(mainWidth);
-        baseCanvas.setHeight(mainHeight);
-
-        GraphicsContext gc= baseCanvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, baseCanvas.getWidth(), baseCanvas.getHeight());
-        setFillColor(Color.WHITE);
-
-        canvas.setOnMouseMoved(e ->
-                        Frame.getInstance().getCoordinates().setText('\t' + "X: " + e.getX() + '\t' + "Y: " + e.getY())
+        canvas.setOnMouseMoved(e -> Frame.getInstance().getCoordinates().setText('\t' + "X: " + e.getX() + '\t' + "Y: " + e.getY())
         );
         canvas.setOnMousePressed(e -> {
-            if (moveFlag) {
-                return;
-            }
-            if (resizeFlag) {
+            if (moveFlag || resizeFlag) {
+                Shape s = ShapeSelector.getSelectedShape(e.getX(), e.getY());
+                if (s != null) {
+                    tempShape = s;
+                    oldPoints[0] = e.getX();
+                    oldPoints[1] = e.getY();
+                }
                 return;
             }
             if (deleteFlag) {
+                Frame.getInstance().getDelete().setDisable(false);
+                Shape s = ShapeSelector.getSelectedShape(e.getX(), e.getY());
+                if (s != null) {
+                    Main.getInstance().getShapes().remove(s);
+                    s.remove();
+                }
                 return;
             }
             startX = e.getX();
@@ -127,11 +141,31 @@ public class Sketch {
 
         canvas.setOnMouseReleased(e->{
             if (moveFlag) {
+                Frame.getInstance().getMove().setDisable(false);
                 moveFlag = false;
+                if (tempShape != null) {
+                    tempShape.getLayer().setTranslateX(e.getX() - oldPoints[0]);
+                    tempShape.getLayer().setTranslateY(e.getY() - oldPoints[1]);
+                    tempShape = null;
+                }
                 return;
             }
             if (resizeFlag) {
+                Frame.getInstance().getResize().setDisable(false);
                 resizeFlag = false;
+                if (tempShape != null) {
+
+                    TextInputDialog dialog = new TextInputDialog("2");
+                    dialog.setTitle("Resize Object");
+                    dialog.setHeaderText("How many times do you want to resize this object ?");
+                    dialog.setContentText("Resize:");
+                    Optional<String> result = dialog.showAndWait();
+                    if (result.isPresent()) {
+                        tempShape.getLayer().setScaleX(Double.valueOf(result.get()));
+                        tempShape.getLayer().setScaleY(Double.valueOf(result.get()));
+                    }
+                    tempShape = null;
+                }
                 return;
             }
             if (deleteFlag) {
@@ -199,5 +233,30 @@ class SmallRectangles {
 
     public static void remove() {
         Sketch.getInstance().getCanvas().getChildren().removeAll(smallRectangles);
+    }
+}
+
+class ShapeSelector {
+    public static Shape getSelectedShape(double x, double y) {
+        for (Shape s : Main.getInstance().getShapes()) {
+            if (s.getProperties().containsKey("point1-x")) {
+                if (isInRange(x, (double) s.getProperties().get("point1-x"), y, (double) s.getProperties().get("point1-y")))
+                    return s;
+                if (isInRange(x, (double) s.getProperties().get("point2-x"), y, (double) s.getProperties().get("point2-y")))
+                    return s;
+                if (isInRange(x, (double) s.getProperties().get("point3-x"), y, (double) s.getProperties().get("point3-y")))
+                    return s;
+            } else {
+                if (isInRange(x, (double) s.getProperties().get("starting-x"), y, (double) s.getProperties().get("starting-y")))
+                    return s;
+                if (isInRange(x, (double) s.getProperties().get("ending-x"), y, (double) s.getProperties().get("ending-y")))
+                    return s;
+            }
+        }
+        return null;
+    }
+
+    private static boolean isInRange(double x1, double x2, double y1, double y2) {
+        return Math.abs(x1 - x2) < 5 && Math.abs(y1 - y2) < 5;
     }
 }

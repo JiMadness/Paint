@@ -4,10 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Shape;
 
+import java.util.Optional;
 import java.util.Stack;
 
 public class Main extends Application {
@@ -33,8 +36,22 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         setInstance(this);
         this.setPrimaryStage(primaryStage);
+
         initViews();
+
         primaryStage.setMaximized(true);
+        primaryStage.setOnCloseRequest(e -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Exit Paint");
+            alert.setHeaderText("Exit Paint");
+            alert.setContentText("Are you sure you want to quit Paint?\nUnsaved changes will be lost.");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() != ButtonType.OK) {
+                e.consume();
+            }
+        });
+
         primaryStage.show();
     }
 

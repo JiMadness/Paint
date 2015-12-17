@@ -31,10 +31,6 @@ public class UniverseShape implements Shape{
         return properties;
     }
 
-    public void setProperties(Map<String, Double> properties) {
-        this.properties=properties;
-    }
-
     public Color getColor() {
         return color;
     }
